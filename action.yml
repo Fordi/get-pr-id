@@ -1,23 +1,22 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
-
-# Add your action's branding here. This will appear on the GitHub Marketplace.
-branding:
-  icon: heart
-  color: red
+name: get-pr-id
+description: Get the PR ID and base branch for this branch, if one exists
+author: Bryan Elliott
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: Your input description here
+  token:
+    description: github token
     required: true
-    default: '1000'
+    default: ${{ github.token }}
 
 # Define your outputs here.
 outputs:
-  time:
-    description: Your output description here
+  id:
+    description: PR ID
+  base:
+    description: PR target ref
+  branch:
+    description: PR content ref
 
 runs:
   using: node20

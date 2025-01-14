@@ -1,8 +1,38 @@
-import { setFailed, setOutput } from '@actions/core'
+import { setFailed, setOutput, getInput } from '@actions/core'
+import { context } from '@actions/github'
 
-export async function executor(promisor) {
+const inputProxy = (schema = {}) =>
+  new Proxy(
+    {},
+    {
+      get: (_, prop, __) => {
+        if (prop === 'context') {
+          return context
+        }
+        const strValue = getInput(prop)
+        const { required, parse } = schema[prop] ?? {}
+        if (required && strValue === undefined) {
+          throw new Error(`Input ${prop} is required, but not present.`)
+        }
+        if (strValue !== undefined && !!parse) {
+          const value = parse(strValue)
+          if (value instanceof Error) {
+            throw value
+          }
+          if (typeof value === 'number' && isNaN(value)) {
+            throw new Error(`${prop} is not a number`)
+          }
+          return value
+        }
+
+        return strValue
+      }
+    }
+  )
+
+export default async function executor(promisor) {
   try {
-    const outputs = await promisor()
+    const outputs = await promisor(inputProxy(promisor.schema))
     if (outputs === undefined || outputs === true) {
       return
     }

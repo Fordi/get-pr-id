@@ -1,4 +1,4 @@
-import { run } from './main.js'
-import { executor } from './executor.js'
+import getPrId from './getPrId.js'
+import executor from './executor.js'
 
-await executor(run)
+await executor(getPrId)

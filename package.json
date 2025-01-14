@@ -28,7 +28,6 @@
     "coverage": "npx make-coverage-badge --output-path ./badges/coverage.svg",
     "format:write": "npx prettier --write .",
     "format:check": "npx prettier --check .",
-    "lint": "npx eslint .",
     "local-action": "npx local-action . src/main.js .env",
     "package": "npx rollup --config rollup.config.js",
     "package:watch": "npm run package -- --watch",
