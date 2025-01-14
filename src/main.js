@@ -8,7 +8,7 @@ import { wait } from './wait.js'
  */
 export async function run() {
   const ms = core.getInput('milliseconds')
-  core.debug(JSON.stringify(github));
+  core.debug(JSON.stringify(github))
   // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
   core.debug(`Waiting ${ms} milliseconds ...`)
 
@@ -18,6 +18,6 @@ export async function run() {
   core.debug(new Date().toTimeString())
 
   return {
-    time: new Date().toTimeString(),
-  };
+    time: new Date().toTimeString()
+  }
 }
