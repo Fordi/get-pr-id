@@ -20,7 +20,7 @@ const { run } = await import('../src/main.js')
 describe('main.js', () => {
   beforeEach(() => {
     // Set the action's inputs as return values from core.getInput().
-    core.getInput.mockImplementation(() => '500')
+    // core.getInput.mockImplementation(() => '500')
 
     // Mock the wait function so that it does not actually wait.
     wait.mockImplementation(() => Promise.resolve('done!'))
@@ -31,21 +31,13 @@ describe('main.js', () => {
   })
 
   it('Sets the time output', async () => {
-    const outputs = await run()
+    const outputs = await run({ milliseconds: '500' });
 
     // Verify the time output was set.
     expect(outputs.time).toEqual(expect.stringMatching(/^\d{2}:\d{2}:\d{2}/))
   })
 
-  it('Sets a failed status', async () => {
-    // Clear the getInput mock and return an invalid value.
-    core.getInput.mockClear().mockReturnValueOnce('this is not a number')
-
-    // Clear the wait mock and return a rejected promise.
-    wait
-      .mockClear()
-      .mockRejectedValueOnce(new Error('milliseconds is not a number'))
-
-    await expect(() => run()).rejects.toThrow('milliseconds is not a number')
+  it('Throws on bad input', async () => {
+    await expect(() => run({ milliseconds: 'this is not a number' })).rejects.toThrow('milliseconds is not a number')
   })
 })
