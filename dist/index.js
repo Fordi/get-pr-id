@@ -31278,8 +31278,9 @@ async function run() {
   }
 }
 
-run().then(
-  (outputs) => {
+async function executor(promisor) {
+  try {
+    const outputs = await promisor();
     if (outputs === undefined || outputs === true) {
       return
     }
@@ -31290,7 +31291,10 @@ run().then(
     } else {
       coreExports.setOutput('value', outputs);
     }
-  },
-  (error) => coreExports.setFailed(error.message)
-);
+  } catch (error) {
+    coreExports.setFailed(error.message);
+  }
+}
+
+await executor(run);
 //# sourceMappingURL=index.js.map
