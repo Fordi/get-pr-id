@@ -1,8 +1,18 @@
-/**
- * The entrypoint for the action. This file simply imports and runs the action's
- * main logic.
- */
+import { setFailed, setOutput } from '@actions/core'
 import { run } from './main.js'
 
-/* istanbul ignore next */
-run()
+run().then(
+  (outputs) => {
+    if (outputs === undefined || outputs === true) {
+      return;
+    }
+    if (typeof outputs === 'object' && !Array.isArray(outputs)) {
+      for (const [key, value] of Object.entries(outputs)) {
+        setOutput(key, value);
+      }
+    } else {
+      setOutput('value', outputs);
+    }
+  },
+  (error) => setFailed(error.message)
+);
