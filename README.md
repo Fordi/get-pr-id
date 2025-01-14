@@ -20,5 +20,5 @@ steps:
       echo ID: "${{ steps.pr.outputs.id }}"
       echo Base: "${{ steps.pr.outputs.base }}"
       echo Branch: "${{ steps.pr.outputs.branch }}"
-      
+
 ```

@@ -57,7 +57,7 @@ jobs:
         id: pr
         uses: ./
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
 
       - name: Print Output
         run: |
